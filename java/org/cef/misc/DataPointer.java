@@ -75,7 +75,7 @@ public class DataPointer {
 	static {
 		MethodHandles.Lookup lookup = MethodHandles.lookup();
 		try {
-			Class<?> clz = lookup.findClass("org.lwjgl.system.MemoryUtil");
+			Class<?> clz = Class.forName("org.lwjgl.system.MemoryUtil", false, lookup.lookupClass().getClassLoader());
 			memByteBuffer = lookup.findStatic(clz, "memByteBuffer", MethodType.methodType(ByteBuffer.class, new Class[]{Long.TYPE, Integer.TYPE}));
 		} catch (Throwable err) {
 			System.err.println("Could not find LWJGL MemoryUtil's memByteBuffer method.\nAre you using LWJGL 3.x?");
