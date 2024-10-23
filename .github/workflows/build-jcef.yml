@@ -16,13 +16,16 @@ jobs:
       - name: Upload mask
         run: echo "::add-mask::${{ secrets.UPLOAD_URL }}"
       - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
       - name: Install deps and build
         run: |
           sudo apt update
-          sudo apt install build-essential g++ cmake ninja-build openjdk-17-jdk python3 libgtk2.0-dev s3cmd -y
+          sudo apt install build-essential g++ cmake ninja-build python3 libgtk2.0-dev s3cmd -y
           mkdir jcef_build && cd jcef_build
-          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          export JAVA_INCLUDE_PATH=/usr/lib/jvm/java-17-openjdk-amd64/include
           cmake -G "Ninja" -DPROJECT_ARCH=${{ matrix.platform }} -DCMAKE_BUILD_TYPE=Release ..
           ninja -j4
           mv native/Release linux_${{ matrix.platform }}
@@ -44,6 +47,11 @@ jobs:
       - name: Upload mask
         run: echo "::add-mask::${{ secrets.UPLOAD_URL }}"
       - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
       - uses: ilammy/msvc-dev-cmd@v1
       - name: Install s3cmd
         run: |
@@ -76,6 +84,11 @@ jobs:
       - name: Upload mask
         run: echo "::add-mask::${{ secrets.UPLOAD_URL }}"
       - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
       - run: |
           brew install ninja
           brew install coreutils
